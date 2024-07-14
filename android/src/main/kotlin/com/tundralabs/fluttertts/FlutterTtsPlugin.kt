@@ -660,21 +660,24 @@ class FlutterTtsPlugin : MethodCallHandler, FlutterPlugin {
 
         val result: Int =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                val resolver = this.context?.contentResolver
-                val contentValues = ContentValues().apply {
-                    put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
-                    put(MediaStore.MediaColumns.MIME_TYPE, "audio/wav")
-                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_MUSIC)
-                }
-                val uri = resolver?.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, contentValues)
-                this.parcelFileDescriptor = resolver?.openFileDescriptor(uri!!, "rw")
-                fullPath = uri?.path + File.separatorChar + fileName
+                // val resolver = this.context?.contentResolver
+                // val contentValues = ContentValues().apply {
+                //     put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+                //     put(MediaStore.MediaColumns.MIME_TYPE, "audio/wav")
+                //     put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_MUSIC)
+                // }
+                // val uri = resolver?.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, contentValues)
+                // this.parcelFileDescriptor = resolver?.openFileDescriptor(uri!!, "rw")
+                val file = File(fileName)
+                fullPath = fileName
+                // uri?.path + File.separatorChar +
 
                 tts!!.synthesizeToFile(text, bundle!!, parcelFileDescriptor!!, SYNTHESIZE_TO_FILE_PREFIX + uuid)
             } else {
-                val musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
-                val file = File(musicDir, fileName)
-                fullPath = file.path
+                // val musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
+                val file = File(fileName)
+                fullPath = fileName
+                // file.path
 
                 tts!!.synthesizeToFile(text, bundle!!, file!!, SYNTHESIZE_TO_FILE_PREFIX + uuid)
             }
