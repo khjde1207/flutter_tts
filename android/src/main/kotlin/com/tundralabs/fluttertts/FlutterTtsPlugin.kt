@@ -672,7 +672,7 @@ class FlutterTtsPlugin : MethodCallHandler, FlutterPlugin {
                 fullPath = fileName
                 // uri?.path + File.separatorChar +
 
-                tts!!.synthesizeToFile(text, bundle!!, parcelFileDescriptor!!, SYNTHESIZE_TO_FILE_PREFIX + uuid)
+                tts!!.synthesizeToFile(text, bundle!!, file!!, SYNTHESIZE_TO_FILE_PREFIX + uuid)
             } else {
                 // val musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
                 val file = File(fileName)
