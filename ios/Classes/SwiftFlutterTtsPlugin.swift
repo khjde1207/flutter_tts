@@ -7,7 +7,7 @@ public class SwiftFlutterTtsPlugin: NSObject, FlutterPlugin, AVSpeechSynthesizer
   final var iosAudioCategoryOptionsKey = "iosAudioCategoryOptionsKey"
   final var iosAudioModeKey = "iosAudioModeKey"
 
-  let synthesizer = AVSpeechSynthesizer()
+  var synthesizer = AVSpeechSynthesizer()
   var language: String = AVSpeechSynthesisVoice.currentLanguageCode()
   var rate: Float = AVSpeechUtteranceDefaultSpeechRate
   var languages = Set<String>()
@@ -87,6 +87,10 @@ public class SwiftFlutterTtsPlugin: NSObject, FlutterPlugin, AVSpeechSynthesizer
       break
     case "stop":
       self.stop()
+      result(1)
+      break
+    case "reset":
+      self.reset()
       result(1)
       break
     case "getLanguages":
@@ -306,6 +310,12 @@ public class SwiftFlutterTtsPlugin: NSObject, FlutterPlugin, AVSpeechSynthesizer
 
   private func stop() {
     self.synthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
+  }
+
+  private func reset() {
+    self.synthesizer.delegate = nil;
+    self.synthesizer = AVSpeechSynthesizer();
+    self.synthesizer.delegate = self;
   }
 
   private func getLanguages(result: FlutterResult) {
